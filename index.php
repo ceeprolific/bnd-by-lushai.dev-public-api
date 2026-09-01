@@ -20,7 +20,7 @@
     <div class="container">
 <header>
     <div class="mascot">
-        <img src="assets/mascot.svg" alt="Mizo Bible & Dictionary Mascot" width="80" height="80">
+        <img src="https://picpulse.lushai.dev/c/lushai.png" alt="lushai" loading="lazy" />
     </div>
     <h1>Mizo Bible & Dictionary</h1>
     <p>BnD API hmanga siam</p>

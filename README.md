@@ -21,7 +21,7 @@ A simple, fast, and beautiful web interface for searching the Mizo Holy Bible an
 *   **Visual Feedback**: Loading spinners, toast notifications, and staggered result animations.
 *   **Search Highlighting**: Automatic highlighting of search terms in results.
 *   **Custom Favicon**: Themed SVG favicon (open book with sparkle) matching the sunset/indigo color scheme.
-*   **Mascot Logo**: Friendly open book mascot with a smile displayed prominently in the header, adding personality to the app.
+*   **Brand Logo**: Uses the official Lushai logo from PicPulse (https://picpulse.lushai.dev/c/lushai.png) as the site logo, loaded lazily for performance.
 *   **SVG Icons (No Emojis)**: All UI icons are rendered as crisp, scalable inline SVG graphics, replacing platform-dependent emojis for consistent cross-browser appearance.
 *   **Scroll to Top**: Floating button appears after scrolling for quick navigation.
 *   **Toast Notifications**: Non-intrusive pop-up messages for success and error feedback.

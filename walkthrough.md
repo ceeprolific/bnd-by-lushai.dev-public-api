@@ -50,12 +50,12 @@ He project hian `bnd.lushai.dev` API hmangin Mizo Bible leh English-Mizo Diction
         *   **Rate limit awareness** with remaining quota display
         *   **Floating particles generation** for visual delight
 
-## Mascot Logo Added
+## Logo Updated
 
-*   **`assets/mascot.svg`**: A custom SVG mascot logo featuring a cheerful open book character with a smile, cheeks, and sparkles. It matches the app's sunset color scheme (indigo/pink gradients) and is displayed in the header via an `<img>` tag.
-*   **`index.php`**: Patched the `<header>` section to include:
-    *   `<div class="mascot"><img src="assets/mascot.svg" ...></div>`
-*   **`assets/css/style.css`**: Added styles for `.mascot` and `.mascot img` to center the mascot, give it a fixed size, and add a subtle hover animation.
+*   **`index.php`**: Patched the `<header>` section to use the official Lushai logo from PicPulse:
+    *   `<div class="mascot"><img src="https://picpulse.lushai.dev/c/lushai.png" alt="lushai" loading="lazy" /></div>`
+*   **`assets/css/style.css`**: Existing `.mascot` and `.mascot img` styles remain, resizing the logo to 90x90px with a subtle hover animation.
+*   **`assets/mascot.svg`**: Kept for reference or future use, but no longer referenced in the header.
 
 ## Favicon Added
 
