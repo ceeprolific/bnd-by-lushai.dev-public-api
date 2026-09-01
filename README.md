@@ -4,6 +4,8 @@ A simple, fast, and beautiful web interface for searching the Mizo Holy Bible an
 
 ![Mizo Bible and Dictionary Screenshot](https://kawding.com/w/php/mizo-bible-sunset.png)
 
+Demo - https://bndapi.lushai.dev/
+
 ## Features
 
 *   **Daily Highlights**: Displays "Verse of the Day" and "Word of the Day" on the home screen using the `/daily` API endpoint.
