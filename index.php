@@ -4,11 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mizo Bible & Dictionary - Search the Mizo Holy Bible and English-Mizo Dictionary">
+    <meta name="theme-color" content="#6366f1">
     <title>Mizo Bible & Dictionary</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
@@ -19,33 +22,60 @@
         </header>
 
         <div class="tabs">
-            <button id="bible-tab" class="tab-btn active" data-section="bible-section">Bible</button>
-            <button id="dict-tab" class="tab-btn" data-section="dictionary-section">Dictionary</button>
+            <button id="bible-tab" class="tab-btn active" data-section="bible-section">
+                <span class="icon">📖</span>
+                Bible
+            </button>
+            <button id="dict-tab" class="tab-btn" data-section="dictionary-section">
+                <span class="icon">📚</span>
+                Dictionary
+            </button>
         </div>
 
         <main>
             <section id="bible-section" class="search-section">
-                <h2>Bible Chang Zawnna</h2>
+                <h2><span class="icon">📖</span> Bible Chang Zawnna</h2>
                 <form id="bible-form">
                     <div class="form-row">
-                        <input type="text" id="book" name="book" placeholder="Lehkhabu (e.g. Johana)">
-                        <input type="number" id="chapter" name="chapter" placeholder="Bung">
-                        <input type="number" id="verse" name="verse" placeholder="Châng">
+                        <div class="form-group">
+                            <label for="book" style="display: none;">Lehkhabu</label>
+                            <input type="text" id="book" name="book" placeholder="Lehkhabu (e.g. Johana)" aria-label="Book name">
+                        </div>
+                        <div class="form-group">
+                            <label for="chapter" style="display: none;">Bung</label>
+                            <input type="number" id="chapter" name="chapter" placeholder="Bung" min="1" aria-label="Chapter number">
+                        </div>
+                        <div class="form-group">
+                            <label for="verse" style="display: none;">Châng</label>
+                            <input type="number" id="verse" name="verse" placeholder="Châng" min="1" aria-label="Verse number">
+                        </div>
                     </div>
-                    <button type="submit">Zawnna</button>
+                    <button type="submit">
+                        <i class="fas fa-search"></i>
+                        Zawnna
+                    </button>
                 </form>
             </section>
 
             <section id="dictionary-section" class="search-section hidden">
-                <h2>Dictionary</h2>
+                <h2><span class="icon">📚</span> Dictionary</h2>
                 <form id="dictionary-form">
-                    <input type="text" id="word" name="word" placeholder="Zawn tur thu mal (e.g. Faith)">
-                    <button type="submit">Zawnna</button>
+                    <div class="form-group">
+                        <label for="word" style="display: none;">Word</label>
+                        <input type="text" id="word" name="word" placeholder="Zawn tur thu mal (e.g. Faith)" aria-label="Word to search">
+                    </div>
+                    <button type="submit">
+                        <i class="fas fa-search"></i>
+                        Zawnna
+                    </button>
                 </form>
             </section>
 
-            <div id="results">
-                <p class="placeholder">Result-te he tah hian a lo lang ang.</p>
+            <div id="results" aria-live="polite">
+                <div class="placeholder">
+                    <div class="icon">📚</div>
+                    <p>Result-te he tah hian a lo lang ang.</p>
+                </div>
             </div>
         </main>
     </div>
