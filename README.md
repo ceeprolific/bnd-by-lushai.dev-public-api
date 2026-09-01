@@ -92,7 +92,7 @@ Follow these steps to run the project locally.
 
 ### 4. Testing the Enhanced UI/UX
 
-1.  **Daily Highlights**: Check the top section for the daily verse and word.
+1.  **Daily Highlights**: Check the top section for the daily verse and word. The loading spinners should disappear even if your API key is invalid.
 2.  **Bible Version Selection**: Use the dropdown to select different Bible translations.
 3.  **Dictionary Direction**: Use the dropdown to switch between English-Mizo and Mizo-English.
 4.  **Pagination**: Search for a common term and use the "Load More" button.
@@ -116,7 +116,7 @@ You can now use the application to search for Bible verses and dictionary words 
 - **Smoother Animations**: Transitions and keyframe animations throughout
 - **Daily Highlights Cards**: Visually distinct cards for Verse/Word of the Day
 - **Styled Select Dropdowns**: Custom-styled dropdowns matching the input fields
-- **Fixed Daily Highlights Spinner**: Resolved issue where "Verse of the Day" and "Word of the Day" spinners would persist indefinitely.
+- **BUG FIX**: Resolved issue where "Verse of the Day" and "Word of the Day" spinners would persist indefinitely if the API key was invalid or an error occurred.
 
 ### UX Improvements
 - **Daily Highlights**: Instant value on page load with Verse/Word of the Day

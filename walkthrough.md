@@ -66,8 +66,8 @@ php -S localhost:8000
 ### 4. Test Enhanced UI/UX Features
 
 #### Daily Highlights Fix:
-- **Spinning Issue Resolved**: The "Verse of the Day" and "Word of the Day" spinners will now correctly disappear after data loads or if an error occurs.
-- **API Key Check**: Ensure your `.env` file has a valid API key to fetch daily highlights.
+- **BUG FIX**: The "Verse of the Day" and "Word of the Day" spinners would previously get stuck on page load if the API key was invalid or an API error occurred. This has been resolved. The spinners will now correctly be replaced with content or a "not available" message.
+- **API Key Check**: Test this fix by running the app with the default (invalid) `BND_API_KEY` in your `.env` file. The spinners should disappear and show a message. Then, test with a valid key to see the content load.
 
 #### Visual Enhancements:
 - **Dynamic Background**: Notice the animated gradient background

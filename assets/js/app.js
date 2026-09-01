@@ -184,8 +184,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fetchFromApi = async (endpoint, params, silent = false) => {
         if (!BND_API_KEY || BND_API_KEY === 'bnd_live_your_unique_api_token_here') {
-            if (!silent) showError("API Key a ngai. .env file-ah i API key dik tak dah luh tur.");
-            return null;
+            if (!silent) {
+                showError("API Key a ngai. .env file-ah i API key dik tak dah luh tur.");
+            }
+            // For silent calls, we must still allow the caller to handle the UI update.
+            // Returning a standard error object is cleaner than null and fixes the spinner bug.
+            return { status: "error", message: "API Key is missing or invalid." };
         }
 
         const isAppending = params.offset > 0;
@@ -237,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('API Error:', error);
             if (!silent) showError(error.message);
-            return null;
+            return { status: "error", message: error.message };
         }
     };
 
