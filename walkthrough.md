@@ -13,6 +13,9 @@ He project hian `bnd.lushai.dev` API hmangin Mizo Bible leh English-Mizo Diction
 
 3.  **`index.php`**:
     *   Website-a langsar ber tur, user-in a hmuh hmasak ber tur file a ni.
+    *   **Daily Highlights Section**: Displays "Verse of the Day" and "Word of the Day" at the top.
+    *   **Bible Version Selector**: Dropdown to select Bible translation (Mizo, KJV, NIV, ESV, WEB).
+    *   **Dictionary Direction Selector**: Dropdown to switch between "English to Mizo" and "Mizo to English".
     *   Bible leh Dictionary zawnna form te a awm.
     *   Tab hmangin Bible leh Dictionary zawnna a inthlak thei.
     *   API Key chu `config/bootstrap.php` atangin `$_ENV` hmanga lain, JavaScript-ah him takin a pe chhawng (`htmlspecialchars` hmanga venhim).
@@ -27,11 +30,14 @@ He project hian `bnd.lushai.dev` API hmangin Mizo Bible leh English-Mizo Diction
         *   **Improved mobile responsiveness** with touch-friendly targets
         *   **Better visual hierarchy** with shadows and spacing
         *   **Loading animations** (spinner) and micro-interactions
-        *   **Accessibility improvements** (focus states, ARIA labels)
+        *   **Accessibility improvements** (focus states, ARIA labels, `.sr-only` class)
         *   **Dark mode optimization** with proper contrast ratios
+        *   **New Components**: Styling for Daily Highlights cards, Select dropdowns, and Load More button.
 
 5.  **`assets/js/app.js`**:
     *   **Enhanced JavaScript with modern UX patterns**:
+        *   **Daily Highlights Fetching**: Automatically fetches and displays daily verse/word on load.
+        *   **Pagination Logic**: Handles "Load More" functionality to append results.
         *   **Animated tab switching** with smooth transitions
         *   **Improved form validation** with user feedback
         *   **Enhanced error handling** with specific messages (rate limiting, missing API key)

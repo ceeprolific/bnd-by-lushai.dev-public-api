@@ -6,6 +6,10 @@ A simple, fast, and beautiful web interface for searching the Mizo Holy Bible an
 
 ## Features
 
+*   **Daily Highlights**: Displays "Verse of the Day" and "Word of the Day" on the home screen using the `/daily` API endpoint.
+*   **Multi-Version Bible Search**: Select from multiple Bible translations (Mizo, KJV, NIV, ESV, WEB) via a dropdown selector.
+*   **Bi-directional Dictionary**: Switch between "English to Mizo" and "Mizo to English" dictionary modes.
+*   **Pagination (Load More)**: Efficiently loads results in batches with a "Load More" button to handle large datasets.
 *   **Dual Functionality**: Seamlessly switch between Bible and Dictionary search with animated tab switching.
 *   **Enhanced UI/UX**: Modern glass-morphism design with smooth animations and micro-interactions.
 *   **Responsive Design**: Fully responsive layout with touch-friendly mobile interface.
@@ -24,6 +28,7 @@ A simple, fast, and beautiful web interface for searching the Mizo Holy Bible an
 *   **API Integration**: Consumes the external `bnd.lushai.dev` REST API with proper error handling
 *   **Design System**: Modern component-based UI with consistent spacing, colors, and typography
 *   **Performance**: Optimized assets, lazy loading, and efficient API calls
+*   **Features**: Daily highlights, multi-version Bible search, bi-directional dictionary, pagination
 
 ### File Structure
 
@@ -42,6 +47,14 @@ A simple, fast, and beautiful web interface for searching the Mizo Holy Bible an
 ├── README.md
 └── walkthrough.md
 ```
+
+### Key Enhancements Implemented
+
+1.  **Daily Highlights**: Fetches and displays the "Verse of the Day" and "Word of the Day" from the `/daily` API endpoint on page load.
+2.  **Bible Version Selector**: Added a dropdown to select between Mizo, KJV, NIV, ESV, and WEB translations.
+3.  **Dictionary Direction Selector**: Added a dropdown to switch between "English to Mizo" and "Mizo to English" dictionaries.
+4.  **Pagination**: Implemented a "Load More" button to fetch and append additional results in batches of 10, improving performance for large result sets.
+5.  **Enhanced Styling**: Updated CSS to style the new dropdowns, daily highlight cards, and load more button consistently with the sunset theme.
 
 ## Setup & Installation
 
@@ -79,12 +92,16 @@ Follow these steps to run the project locally.
 
 ### 4. Testing the Enhanced UI/UX
 
-1.  **Tab Switching**: Notice the smooth animation when switching between Bible and Dictionary tabs
-2.  **Loading States**: Submit a search to see the animated spinner
-3.  **Error Handling**: Try submitting empty forms to see validation messages
-4.  **Results Display**: Notice the staggered animation when results appear
-5.  **Responsive Design**: Resize your browser to see the responsive layout
-6.  **Accessibility**: Use Tab key to navigate through the interface
+1.  **Daily Highlights**: Check the top section for the daily verse and word.
+2.  **Bible Version Selection**: Use the dropdown to select different Bible translations.
+3.  **Dictionary Direction**: Use the dropdown to switch between English-Mizo and Mizo-English.
+4.  **Pagination**: Search for a common term and use the "Load More" button.
+5.  **Tab Switching**: Notice the smooth animation when switching between Bible and Dictionary tabs.
+6.  **Loading States**: Submit a search to see the animated spinner.
+7.  **Error Handling**: Try submitting empty forms to see validation messages.
+8.  **Results Display**: Notice the staggered animation when results appear.
+9.  **Responsive Design**: Resize your browser to see the responsive layout.
+10. **Accessibility**: Use Tab key to navigate through the interface.
 
 You can now use the application to search for Bible verses and dictionary words with an enhanced user experience!
 
@@ -97,8 +114,14 @@ You can now use the application to search for Bible verses and dictionary words 
 - **Improved Color System**: Consistent color palette with CSS custom properties
 - **Better Shadows & Depth**: Layered shadows for depth perception
 - **Smoother Animations**: Transitions and keyframe animations throughout
+- **Daily Highlights Cards**: Visually distinct cards for Verse/Word of the Day
+- **Styled Select Dropdowns**: Custom-styled dropdowns matching the input fields
 
 ### UX Improvements
+- **Daily Highlights**: Instant value on page load with Verse/Word of the Day
+- **Multi-Version Search**: Ability to search different Bible translations
+- **Bi-directional Dictionary**: Switch between language directions easily
+- **Pagination**: "Load More" button for seamless browsing of large result sets
 - **Animated Tab Switching**: Smooth transitions between sections
 - **Loading Spinner**: Visual feedback during API calls
 - **Success Messages**: Clear feedback for successful searches
@@ -108,11 +131,12 @@ You can now use the application to search for Bible verses and dictionary words 
 - **Rate Limit Awareness**: Messages when API limits are reached
 
 ### Technical Improvements
-- **Accessibility**: ARIA labels, focus states, keyboard navigation
-- **Performance**: Optimized CSS with minimal repaints
+- **Accessibility**: ARIA labels, focus states, keyboard navigation, `.sr-only` utility class
+- **Performance**: Optimized CSS with minimal repaints, lazy loading of daily content
 - **Responsive Design**: Mobile-first approach with touch targets
 - **Error Handling**: Specific, user-friendly error messages
 - **Code Organization**: Modular CSS with custom properties
+- **Pagination State Management**: Clean handling of offset/limit in JS
 
 ---
 

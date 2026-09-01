@@ -32,11 +32,36 @@
             </button>
         </div>
 
+        <div id="daily-highlights" class="daily-section">
+            <div class="daily-card">
+                <h3><span class="icon">✨</span> Verse of the Day</h3>
+                <div id="daily-verse-content" class="daily-content">
+                    <div class="spinner small"></div>
+                </div>
+            </div>
+            <div class="daily-card">
+                <h3><span class="icon">📖</span> Word of the Day</h3>
+                <div id="daily-word-content" class="daily-content">
+                    <div class="spinner small"></div>
+                </div>
+            </div>
+        </div>
+
         <main>
             <section id="bible-section" class="search-section">
                 <h2><span class="icon">📖</span> Bible Chang Zawnna</h2>
                 <form id="bible-form">
                     <div class="form-row">
+                        <div class="form-group">
+                            <label for="bible-version" class="sr-only">Bible Version</label>
+                            <select id="bible-version" name="code" aria-label="Select Bible Version">
+                                <option value="mizo">Mizo Holy Bible</option>
+                                <option value="kjv">King James Version (KJV)</option>
+                                <option value="niv">New International Version (NIV)</option>
+                                <option value="esv">English Standard Version (ESV)</option>
+                                <option value="web">World English Bible (WEB)</option>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label for="book" style="display: none;">Lehkhabu</label>
                             <input type="text" id="book" name="book" placeholder="Lehkhabu (e.g. Johana)" aria-label="Book name">
@@ -60,9 +85,18 @@
             <section id="dictionary-section" class="search-section hidden">
                 <h2><span class="icon">📚</span> Dictionary</h2>
                 <form id="dictionary-form">
-                    <div class="form-group">
-                        <label for="word" style="display: none;">Word</label>
-                        <input type="text" id="word" name="word" placeholder="Zawn tur thu mal (e.g. Faith)" aria-label="Word to search">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dict-direction" class="sr-only">Direction</label>
+                            <select id="dict-direction" name="code" aria-label="Select Dictionary Direction">
+                                <option value="eng_mizo">English to Mizo</option>
+                                <option value="mizo_eng">Mizo to English</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="word" style="display: none;">Word</label>
+                            <input type="text" id="word" name="word" placeholder="Zawn tur thu mal (e.g. Faith)" aria-label="Word to search">
+                        </div>
                     </div>
                     <button type="submit">
                         <i class="fas fa-search"></i>
@@ -76,6 +110,12 @@
                     <div class="icon">📚</div>
                     <p>Result-te he tah hian a lo lang ang.</p>
                 </div>
+            </div>
+            
+            <div id="load-more-container" class="hidden">
+                <button id="load-more-btn" class="btn-secondary">
+                    <i class="fas fa-sync-alt"></i> Load More
+                </button>
             </div>
         </main>
     </div>

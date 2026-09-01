@@ -8,6 +8,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const bibleForm = document.getElementById('bible-form');
     const dictionaryForm = document.getElementById('dictionary-form');
     const resultsContainer = document.getElementById('results');
+    const loadMoreContainer = document.getElementById('load-more-container');
+    const loadMoreBtn = document.getElementById('load-more-btn');
+
+    // State for Pagination
+    let currentSearchType = ''; // 'bible' or 'dictionary'
+    let currentSearchParams = {};
+    let currentOffset = 0;
+    const PAGE_LIMIT = 10; // Matches API default or custom
+
+    // --- Daily Highlights ---
+    const fetchDailyHighlights = async () => {
+        const data = await fetchFromApi('daily', {}, true); // true = silent mode (no main loading spinner)
+        if (data && data.status === 'success') {
+            // Verse of the Day
+            const verseContainer = document.getElementById('daily-verse-content');
+            if (data.daily_verse) {
+                verseContainer.innerHTML = `
+                    <p>"${data.daily_verse.text}"</p>
+                    <span class="reference">- ${data.daily_verse.book} ${data.daily_verse.chapter}:${data.daily_verse.verse}</span>
+                `;
+            } else {
+                verseContainer.innerHTML = '<p>Verse not available today.</p>';
+            }
+
+            // Word of the Day
+            const wordContainer = document.getElementById('daily-word-content');
+            if (data.daily_word) {
+                wordContainer.innerHTML = `
+                    <div class="word-title">${data.daily_word.word}</div>
+                    <p>${data.daily_word.definition}</p>
+                    ${data.daily_word.example ? `<span class="reference">"${data.daily_word.example}"</span>` : ''}
+                `;
+            } else {
+                wordContainer.innerHTML = '<p>Word not available today.</p>';
+            }
+        }
+    };
 
     // Enhanced tab switching with animations
     const switchTab = (activeTab, activeSection, inactiveTab, inactiveSection) => {
@@ -26,6 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 10);
         
         inactiveSection.classList.add('hidden');
+        
+        // Reset pagination state on tab switch
+        resetPagination();
     };
 
     bibleTab.addEventListener('click', () => {
@@ -56,36 +96,65 @@ document.addEventListener('DOMContentLoaded', () => {
         const book = document.getElementById('book').value.trim();
         const chapter = document.getElementById('chapter').value.trim();
         const verse = document.getElementById('verse').value.trim();
+        const code = document.getElementById('bible-version').value;
         
         if (!book && !chapter && !verse) {
             showError("At least one search parameter is required");
             return;
         }
         
-        searchBible({ book, chapter, verse });
+        resetPagination();
+        searchBible({ book, chapter, verse, code, limit: PAGE_LIMIT });
     });
 
     dictionaryForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const word = document.getElementById('word').value.trim();
+        const code = document.getElementById('dict-direction').value;
         
         if (!word) {
             showError("Please enter a word to search");
             return;
         }
         
-        searchDictionary({ q: word });
+        resetPagination();
+        searchDictionary({ q: word, code, limit: PAGE_LIMIT });
     });
+
+    // Load More Logic
+    loadMoreBtn.addEventListener('click', () => {
+        if (currentSearchType === 'bible') {
+            searchBible({ ...currentSearchParams, offset: currentOffset, limit: PAGE_LIMIT });
+        } else if (currentSearchType === 'dictionary') {
+            searchDictionary({ ...currentSearchParams, offset: currentOffset, limit: PAGE_LIMIT });
+        }
+    });
+
+    const resetPagination = () => {
+        currentOffset = 0;
+        currentSearchType = '';
+        currentSearchParams = {};
+        loadMoreContainer.classList.add('hidden');
+    };
 
     // --- Enhanced API Fetching Functions ---
 
-    const showLoading = () => {
-        resultsContainer.innerHTML = `
-            <div class="loading-message">
-                <div class="spinner"></div>
-                <p>A la mek... chawng lawk...</p>
-            </div>
-        `;
+    const showLoading = (append = false) => {
+        if (!append) {
+            resultsContainer.innerHTML = `
+                <div class="loading-message">
+                    <div class="spinner"></div>
+                    <p>A la mek... chawng lawk...</p>
+                </div>
+            `;
+        } else {
+            // Append loading indicator for "Load More"
+            const loader = document.createElement('div');
+            loader.className = 'loading-message';
+            loader.id = 'append-loader';
+            loader.innerHTML = `<div class="spinner small"></div>`;
+            resultsContainer.appendChild(loader);
+        }
     };
     
     const showError = (message) => {
@@ -95,27 +164,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p><strong>Hriatthiam loh thil a awm:</strong> ${message}</p>
             </div>
         `;
+        loadMoreContainer.classList.add('hidden');
     };
 
     const showSuccess = (message) => {
-        resultsContainer.innerHTML = `
-            <div class="success-message">
-                <div class="icon">✓</div>
-                <p>${message}</p>
-            </div>
-        `;
+        // Only show success toast if not appending
+        if (currentOffset === 0) {
+            // We could implement a toast system, but for now let's keep it simple or skip to avoid clearing results
+            // Actually, let's not clear results for success message, just console log or use a small badge
+            console.log(message);
+        }
     };
 
-    const fetchFromApi = async (endpoint, params) => {
+    const fetchFromApi = async (endpoint, params, silent = false) => {
         if (!BND_API_KEY || BND_API_KEY === 'bnd_live_your_unique_api_token_here') {
-            showError("API Key a ngai. .env file-ah i API key dik tak dah luh tur.");
+            if (!silent) showError("API Key a ngai. .env file-ah i API key dik tak dah luh tur.");
             return;
         }
 
+        const isAppending = params.offset > 0;
         const query = new URLSearchParams(params).toString();
         const url = `${API_BASE_URL}/${endpoint}?${query}`;
         
-        showLoading();
+        showLoading(isAppending);
 
         try {
             const response = await fetch(url, {
@@ -150,70 +221,94 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const data = await response.json();
+            
+            // Remove append loader if exists
+            const appendLoader = document.getElementById('append-loader');
+            if (appendLoader) appendLoader.remove();
+
             return data;
 
         } catch (error) {
             console.error('API Error:', error);
-            showError(error.message);
+            if (!silent) showError(error.message);
             return null;
         }
     };
 
     const searchBible = async (params) => {
+        currentSearchType = 'bible';
+        currentSearchParams = params;
+        
         const data = await fetchFromApi('bibles', params);
         if (data) {
-            displayBibleResults(data);
+            displayBibleResults(data, params.offset > 0);
         }
     };
 
     const searchDictionary = async (params) => {
+        currentSearchType = 'dictionary';
+        currentSearchParams = params;
+        
         const data = await fetchFromApi('dictionaries', params);
         if (data) {
-            displayDictionaryResults(data);
+            displayDictionaryResults(data, params.offset > 0);
         }
     };
 
     // --- Enhanced Display Functions ---
     
-    const displayBibleResults = (data) => {
-        resultsContainer.innerHTML = '';
+    const updatePagination = (data) => {
+        // Simple pagination logic: if we received a full page (limit), assume there might be more
+        // Note: The API docs don't explicitly state total count in the snippet provided, 
+        // but usually APIs return total or we check if data.length === limit.
+        // Assuming default limit is 50 based on docs snippet, but we requested 10? 
+        // Actually, the API docs say "limit: 50" in example. Let's assume we can pass limit=10.
+        // If data.data.length === 10 (or whatever limit we set), show Load More.
+        
+        if (data.data && data.data.length >= 10) { // Assuming we requested limit=10, though we didn't explicitly add it to params yet. Let's assume default is 50. 
+            // If we want to be safe, we show Load More if length > 0 and maybe just let user click until empty.
+            // Let's refine: We will add limit=10 to search params in the form handlers.
+            loadMoreContainer.classList.remove('hidden');
+            currentOffset += data.data.length;
+        } else {
+            loadMoreContainer.classList.add('hidden');
+        }
+    };
+
+    const displayBibleResults = (data, append = false) => {
+        if (!append) resultsContainer.innerHTML = '';
         
         if (data.status === 'success' && data.data && data.data.length > 0) {
-            // Show success message for single result
-            if (data.data.length === 1) {
-                showSuccess(`1 result found`);
-            } else {
-                showSuccess(`${data.data.length} results found`);
-            }
+            if (!append) showSuccess(`${data.data.length} results found`);
             
             // Create results with staggered animation
-            setTimeout(() => {
-                resultsContainer.innerHTML = '';
-                data.data.forEach((item, index) => {
-                    const resultDiv = document.createElement('div');
-                    resultDiv.className = 'result-item';
-                    resultDiv.style.animationDelay = `${index * 0.1}s`;
-                    
-                    // Highlight search terms if provided
-                    let textContent = item.text;
-                    const searchQuery = document.getElementById('book').value.trim() || 
-                                       document.getElementById('chapter').value.trim();
-                    
-                    if (searchQuery) {
-                        const regex = new RegExp(`(${searchQuery})`, 'gi');
-                        textContent = textContent.replace(regex, '<span class="highlight">$1</span>');
-                    }
-                    
-                    resultDiv.innerHTML = `
-                        <h3><span class="icon">📖</span>${item.book} ${item.chapter}:${item.verse}</h3>
-                        <div class="meta">${item.bible_name}</div>
-                        <p class="text">${textContent}</p>
-                    `;
-                    resultsContainer.appendChild(resultDiv);
-                });
-            }, 500);
+            const startIndex = append ? resultsContainer.children.length : 0;
             
-        } else {
+            data.data.forEach((item, index) => {
+                const resultDiv = document.createElement('div');
+                resultDiv.className = 'result-item';
+                resultDiv.style.animationDelay = `${index * 0.1}s`;
+                
+                // Highlight search terms if provided
+                let textContent = item.text;
+                const searchQuery = document.getElementById('book').value.trim();
+                
+                if (searchQuery) {
+                    const regex = new RegExp(`(${searchQuery})`, 'gi');
+                    textContent = textContent.replace(regex, '<span class="highlight">$1</span>');
+                }
+                
+                resultDiv.innerHTML = `
+                    <h3><span class="icon">📖</span>${item.book} ${item.chapter}:${item.verse}</h3>
+                    <div class="meta">${item.bible_name}</div>
+                    <p class="text">${textContent}</p>
+                `;
+                resultsContainer.appendChild(resultDiv);
+            });
+            
+            updatePagination(data);
+            
+        } else if (!append) {
             resultsContainer.innerHTML = `
                 <div class="no-results">
                     <div class="icon">🔍</div>
@@ -221,56 +316,52 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p style="font-size: 0.95rem; color: var(--text-muted);">Try different search terms or check spelling</p>
                 </div>
             `;
+            loadMoreContainer.classList.add('hidden');
         }
     };
     
-    const displayDictionaryResults = (data) => {
-        resultsContainer.innerHTML = '';
+    const displayDictionaryResults = (data, append = false) => {
+        if (!append) resultsContainer.innerHTML = '';
         
         if (data.status === 'success' && data.data && data.data.length > 0) {
-            // Show success message
-            if (data.data.length === 1) {
-                showSuccess(`1 word found`);
-            } else {
-                showSuccess(`${data.data.length} words found`);
-            }
+            if (!append) showSuccess(`${data.data.length} words found`);
             
-            // Create results with staggered animation
-            setTimeout(() => {
-                resultsContainer.innerHTML = '';
-                data.data.forEach((item, index) => {
-                    const resultDiv = document.createElement('div');
-                    resultDiv.className = 'result-item';
-                    resultDiv.style.animationDelay = `${index * 0.1}s`;
-                    
-                    // Create example section if exists
-                    const exampleSection = item.example ? `
-                        <div class="example">
-                            <strong>Entirna:</strong>
-                            <p><em>"${item.example}"</em></p>
-                        </div>
-                    ` : '';
-                    
-                    // Format definition with phonetic if available
-                    const definitionContent = item.phonetic ? `
-                        <div class="definition">
-                            <strong>${item.definition.split(')')[0]})</strong>
-                            <span style="color: var(--text-muted); font-style: italic;">${item.phonetic}</span>
-                            ${item.definition.split(')')[1] || ''}
-                        </div>
-                    ` : `<p class="definition">${item.definition}</p>`;
-                    
-                    resultDiv.innerHTML = `
-                        <h3><span class="icon">📖</span>${item.word}</h3>
-                        <div class="meta">${item.dictionary_title}</div>
-                        ${definitionContent}
-                        ${exampleSection}
-                    `;
-                    resultsContainer.appendChild(resultDiv);
-                });
-            }, 500);
-            
-        } else {
+            const startIndex = append ? resultsContainer.children.length : 0;
+
+            data.data.forEach((item, index) => {
+                const resultDiv = document.createElement('div');
+                resultDiv.className = 'result-item';
+                resultDiv.style.animationDelay = `${index * 0.1}s`;
+                
+                // Create example section if exists
+                const exampleSection = item.example ? `
+                    <div class="example">
+                        <strong>Entirna:</strong>
+                        <p><em>"${item.example}"</em></p>
+                    </div>
+                ` : '';
+                
+                // Format definition with phonetic if available
+                const definitionContent = item.phonetic ? `
+                    <div class="definition">
+                        <strong>${item.definition.split(')')[0]})</strong>
+                        <span style="color: var(--text-muted); font-style: italic;">${item.phonetic}</span>
+                        ${item.definition.split(')')[1] || ''}
+                    </div>
+                ` : `<p class="definition">${item.definition}</p>`;
+                
+                resultDiv.innerHTML = `
+                    <h3><span class="icon">📖</span>${item.word}</h3>
+                    <div class="meta">${item.dictionary_title}</div>
+                    ${definitionContent}
+                    ${exampleSection}
+                `;
+                resultsContainer.appendChild(resultDiv);
+            });
+
+            updatePagination(data);
+
+        } else if (!append) {
             resultsContainer.innerHTML = `
                 <div class="no-results">
                     <div class="icon">🔍</div>
@@ -278,6 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p style="font-size: 0.95rem; color: var(--text-muted);">Try a different word or check spelling</p>
                 </div>
             `;
+            loadMoreContainer.classList.add('hidden');
         }
     };
 
@@ -293,11 +385,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.remove('keyboard-navigation');
     });
 
-    // Initialize with placeholder
+    // Initialize
     resultsContainer.innerHTML = `
         <div class="placeholder">
             <div class="icon">📚</div>
             <p>Result-te he tah hian a lo lang ang.</p>
         </div>
     `;
+    
+    // Fetch Daily Highlights on Load
+    fetchDailyHighlights();
 });
