@@ -20,6 +20,8 @@ A simple, fast, and beautiful web interface for searching the Mizo Holy Bible an
 *   **Accessibility**: ARIA labels, focus states, and keyboard navigation support.
 *   **Visual Feedback**: Loading spinners, success messages, and staggered result animations.
 *   **Search Highlighting**: Automatic highlighting of search terms in results.
+*   **Custom Favicon**: Themed SVG favicon (open book with sparkle) matching the sunset/indigo color scheme.
+*   **Mascot Logo**: Friendly open book mascot with a smile displayed prominently in the header, adding personality to the app.
 
 ## Architecture
 
@@ -37,8 +39,9 @@ A simple, fast, and beautiful web interface for searching the Mizo Holy Bible an
 ├── assets
 │   ├── css
 │   │   └── style.css
-│   └── js
-│       └── app.js
+│   ├── js
+│   │   └── app.js
+│   └── mascot.svg
 ├── config
 │   └── bootstrap.php
 ├── .env

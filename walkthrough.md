@@ -49,6 +49,21 @@ He project hian `bnd.lushai.dev` API hmangin Mizo Bible leh English-Mizo Diction
         *   **Rate limit awareness** with remaining quota display
         *   **Better responsive design** handling
 
+## Mascot Logo Added
+
+*   **`assets/mascot.svg`**: A custom SVG mascot logo featuring a cheerful open book character with a smile, cheeks, and sparkles. It matches the app's sunset color scheme (indigo/pink gradients) and is displayed in the header via an `<img>` tag.
+*   **`index.php`**: Patched the `<header>` section to include:
+    *   `<div class="mascot"><img src="assets/mascot.svg" ...></div>`
+*   **`assets/css/style.css`**: Added styles for `.mascot` and `.mascot img` to center the mascot, give it a fixed size, and add a subtle hover animation.
+
+## Favicon Added
+
+*   **`assets/favicon.svg`**: A custom SVG favicon featuring an open book with indigo/pink gradient pages and a golden sparkle, matching the app's "sunset" theme.
+*   **`index.php`**: Patched the `<head>` to include:
+    *   `<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">` (modern browsers)
+    *   `<link rel="apple-touch-icon" href="assets/favicon.svg">` (iOS home screen)
+*   SVG format is used because it is text-based, scales crisply at any size, requires no binary asset generation, and is supported by all modern browsers.
+
 ## How to Test the Enhanced Application
 
 ### 1. Configure `.env`

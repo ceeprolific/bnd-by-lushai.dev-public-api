@@ -7,6 +7,8 @@
     <meta name="description" content="Mizo Bible & Dictionary - Search the Mizo Holy Bible and English-Mizo Dictionary">
     <meta name="theme-color" content="#6366f1">
     <title>Mizo Bible & Dictionary</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="apple-touch-icon" href="assets/favicon.svg">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,10 +18,13 @@
 <body>
 
     <div class="container">
-        <header>
-            <h1>Mizo Bible & Dictionary</h1>
-            <p>BnD API hmanga siam</p>
-        </header>
+<header>
+    <div class="mascot">
+        <img src="assets/mascot.svg" alt="Mizo Bible & Dictionary Mascot" width="80" height="80">
+    </div>
+    <h1>Mizo Bible & Dictionary</h1>
+    <p>BnD API hmanga siam</p>
+</header>
 
         <div class="tabs">
             <button id="bible-tab" class="tab-btn active" data-section="bible-section">
