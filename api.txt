@@ -1,0 +1,173 @@
+1. Authentication & API Key
+Every BnD REST API request requires a valid API Key. Register a free account to instantly get your API key. Include it in your request via a custom header or query parameter:
+
+Option A: HTTP Header (Recommended)
+
+HTTP Request Header
+Copy Header
+x-api-key: bnd_live_your_unique_api_token_here
+Option B: Query Parameter (URL)
+
+GET Query Parameter
+Copy URL
+https://bnd.lushai.dev/api/v1/bibles?api_key=bnd_live_your_unique_api_token_here
+ 2. Rate Limiting & Quota Headers
+To protect system security and server stability, Free API Keys are limited to 60 Requests Per Minute (RPM) within any 1-minute (60-second) window. You can monitor your remaining quota via these response HTTP headers:
+
+Header Name	Type	Description
+X-RateLimit-Limit	Integer	Maximum number of requests allowed per 1-minute window (Default: 60)
+X-RateLimit-Remaining	Integer	Number of requests remaining in the current 1-minute window
+X-RateLimit-Reset	Unix Timestamp	UNIX timestamp (epoch seconds) when the rate limit window resets
+Note: If limit is exceeded, API returns HTTP 429 Too Many Requests with error JSON response:
+
+{ "status": "error", "message": "Rate limit exceeded. Try again in 42 seconds." }
+ 3. Holy Bibles Endpoint
+GET
+/api/v1/bibles
+Endpoint for querying books, chapters, and verses from the Mizo Holy Bible (OV), KJV (King James Version), NIV (New International Version), ESV, and other loaded Bible versions.
+
+Query Parameters
+Parameter	Type	Required	Description / Example
+code	String	Optional	Bible translation code (e.g. mizo, kjv, niv, esv, web, nkjv)
+book	String	Optional	Lekhabu hming (e.g. Genesis, Sam, Johana, Romans)
+chapter	Integer	Optional	Bung number (e.g. 1, 23, 3)
+verse	Integer	Optional	Chang number (e.g. 16)
+q	String	Optional	Full-text verse keyword search (e.g. Pathian, Love)
+JSON Response Example
+Copy JSON
+{
+  "status": "success",
+  "total": 1,
+  "limit": 50,
+  "offset": 0,
+  "data": [
+    {
+      "id": 26137,
+      "bible_code": "mizo",
+      "bible_name": "Mizo Holy Bible",
+      "book": "Johana",
+      "chapter": 3,
+      "verse": 16,
+      "text": "Pathianin khawvel a hmangaih em em a, chuvangin a Fapa mal neih chhun a pe a..."
+    }
+  ]
+}
+
+ 4. Dictionaries Endpoint
+GET
+/api/v1/dictionaries
+Endpoint for querying word definitions, part of speech (noun, verb, adj), phonetics, and sample usage sentences from English-to-Mizo and Mizo-to-English dictionary datasets.
+
+Query Parameters
+Parameter	Type	Required	Description / Example
+code	String	Optional	Dictionary code (e.g. eng_mizo, mizo_eng)
+word	String	Optional	Exact word lookup (e.g. Faith, Grace)
+q	String	Optional	Word or definition keyword search (e.g. Faith, Pathian)
+JSON Response Example
+Copy JSON
+{
+  "status": "success",
+  "total": 1,
+  "limit": 50,
+  "offset": 0,
+  "data": [
+    {
+      "id": 142,
+      "dictionary_code": "eng_mizo",
+      "dictionary_title": "English to Mizo Dictionary",
+      "word": "Faith",
+      "phonetic": "",
+      "definition": "(n.) Rinhlelhlohna, rindana, rinna nghet tak...",
+      "example": "Have faith in God."
+    }
+  ]
+}
+ 5. Daily Highlights Endpoint
+GET
+/api/v1/daily
+Auto-generated daily Verse of the Day and Word of the Day JSON endpoint. Ideal for mobile app home screen widgets.
+
+JSON Response Example
+Copy JSON
+{
+  "status": "success",
+  "website": "BnD by Lushai Dev",
+  "date": "2026-08-09",
+  "daily_verse": {
+    "bible_code": "mizo",
+    "bible_name": "Mizo Holy Bible",
+    "book": "Johana",
+    "chapter": 3,
+    "verse": 16,
+    "text": "Pathianin khawvel a hmangaih em em a..."
+  },
+  "daily_word": {
+    "dictionary_code": "eng_mizo",
+    "dictionary_title": "English to Mizo Dictionary",
+    "word": "Faith",
+    "phonetic": "",
+    "definition": "(n.) Rinhlelhlohna, rindana, rinna nghet tak...",
+    "example": ""
+  }
+}
+
+ 6. API Keys Management Endpoint
+GET / POST
+/api/v1/keys
+Endpoint for authenticated users to retrieve, generate, or regenerate their API key. Only accessible to logged-in users.
+
+JSON Response Example (GET /api/v1/keys)
+Copy JSON
+{
+  "status": "success",
+  "authenticated": true,
+  "api_key": "bnd_4d8a1c9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a",
+  "owner_name": "Lushai Dev User",
+  "email": "user@lushai.dev",
+  "rate_limit_rpm": 60,
+  "is_active": true,
+  "created_at": "2026-08-09 10:00:00"
+}
+ 7. Multi-Language Integration Snippets
+1. JavaScript (Fetch API)
+
+fetch_bible.js
+Copy JavaScript
+fetch('https://bnd.lushai.dev/api/v1/bibles?book=Johana&chapter=3&verse=16', {
+  headers: {
+    'x-api-key': 'YOUR_BND_API_KEY'
+  }
+})
+  .then(res => res.json())
+  .then(data => console.log('Bible Verse:', data.data[0]))
+  .catch(err => console.error('API Error:', err));
+2. Python (requests module)
+
+query_bnd.py
+Copy Python
+import requests
+
+url = "https://bnd.lushai.dev/api/v1/dictionaries"
+headers = {
+    "x-api-key": "YOUR_BND_API_KEY"
+}
+params = {
+    "q": "Faith"
+}
+
+response = requests.get(url, headers=headers, params=params)
+data = response.json()
+print("Dictionary Definition:", data['data'])
+3. cURL (Terminal Command)
+
+cURL command
+Copy cURL
+curl -X GET "https://bnd.lushai.dev/api/v1/bibles?book=Sam&chapter=23" \
+     -H "x-api-key: YOUR_BND_API_KEY"
+ 8. HTTP Status & Error Codes
+Code	Status Name	Description
+200 OK	Success	Request completed successfully. JSON data returned.
+400 Bad Request	Invalid Parameters	Invalid or missing query parameter (e.g. required argument not provided).
+401 Unauthorized	Missing / Invalid Key	API Key missing or token is invalid/deactivated.
+429 Too Many Requests	Rate Limit Exceeded	Requests exceeded the 1-minute quota limit (60 RPM). Wait for the X-RateLimit-Reset header time.
+500 Internal Error	Server Fault	Server-side database processing failure. Administrators have been notified.

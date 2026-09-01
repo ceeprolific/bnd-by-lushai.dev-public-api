@@ -1,0 +1,207 @@
+:root {
+    --bg-gradient-start: #2c3e50;
+    --bg-gradient-end: #4b134f;
+    --container-bg: rgba(23, 29, 42, 0.8);
+    --primary-color: #f39c12;
+    --secondary-color: #e74c3c;
+    --text-color: #ecf0f1;
+    --text-muted-color: #bdc3c7;
+    --input-bg: #2d3436;
+    --border-color: rgba(243, 156, 18, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-image: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+    background-attachment: fixed;
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    background: var(--container-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+header p {
+    color: var(--text-muted-color);
+    font-size: 1rem;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.tab-btn {
+    background: transparent;
+    border: 2px solid var(--border-color);
+    color: var(--text-muted-color);
+    padding: 0.75rem 1.5rem;
+    margin: 0 0.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--bg-gradient-start);
+}
+
+.tab-btn.active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--bg-gradient-start);
+    box-shadow: 0 0 15px rgba(243, 156, 18, 0.5);
+}
+
+.search-section {
+    margin-bottom: 2rem;
+}
+
+.search-section.hidden {
+    display: none;
+}
+
+form h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+    font-weight: 400;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--input-bg);
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]::placeholder,
+input[type="number"]::placeholder {
+    color: var(--text-muted-color);
+    opacity: 0.7;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 8px rgba(243, 156, 18, 0.5);
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button[type="submit"]:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+}
+
+#results {
+    margin-top: 2rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 2rem;
+}
+
+.placeholder, .error-message, .loading-message, .no-results {
+    text-align: center;
+    color: var(--text-muted-color);
+    font-size: 1.1rem;
+    padding: 2rem;
+}
+
+.result-item {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    border-left: 4px solid var(--primary-color);
+}
+
+.result-item h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.result-item .meta {
+    font-size: 0.9rem;
+    color: var(--text-muted-color);
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.result-item p.text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.result-item .definition {
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.result-item .example {
+    font-style: italic;
+    color: var(--text-muted-color);
+    margin-top: 0.75rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--secondary-color);
+}
