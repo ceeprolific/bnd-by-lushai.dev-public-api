@@ -10,6 +10,51 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultsContainer = document.getElementById('results');
     const loadMoreContainer = document.getElementById('load-more-container');
     const loadMoreBtn = document.getElementById('load-more-btn');
+    const toastContainer = document.getElementById('toast-container');
+    const scrollTopBtn = document.getElementById('scroll-top-btn');
+
+    // --- Toast Notification System ---
+    const showToast = (message, type = 'info', duration = 3500) => {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerHTML = message;
+        toastContainer.appendChild(toast);
+
+        // Auto remove after duration
+        setTimeout(() => {
+            toast.classList.add('hide');
+            setTimeout(() => toast.remove(), 300);
+        }, duration);
+
+        // Allow manual dismiss on click
+        toast.addEventListener('click', () => {
+            toast.classList.add('hide');
+            setTimeout(() => toast.remove(), 300);
+        });
+    };
+
+    // --- Scroll to Top Button Logic ---
+    const handleScrollTopVisibility = () => {
+        if (window.scrollY > 400) {
+            scrollTopBtn.classList.add('visible');
+        } else {
+            scrollTopBtn.classList.remove('visible');
+        }
+    };
+
+    window.addEventListener('scroll', handleScrollTopVisibility);
+
+    scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // SVG icon library (inline, scalable, replaces emojis)
+    const ICONS = {
+        book: '<svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+        books: '<svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+        search: '<svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',
+        warning: '<svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
+    };
 
     // State for Pagination
     let currentSearchType = ''; // 'bible' or 'dictionary'
@@ -79,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Clear results when switching tabs
         resultsContainer.innerHTML = `
             <div class="placeholder">
-                <div class="icon">📚</div>
+                <div class="icon">${ICONS.books}</div>
                 <p>Result-te he tah hian a lo lang ang.</p>
             </div>
         `;
@@ -90,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Clear results when switching tabs
         resultsContainer.innerHTML = `
             <div class="placeholder">
-                <div class="icon">📖</div>
+                <div class="icon">${ICONS.books}</div>
                 <p>Result-te he tah hian a lo lang ang.</p>
             </div>
         `;
@@ -166,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const showError = (message) => {
         resultsContainer.innerHTML = `
             <div class="error-message">
-                <div class="icon">⚠️</div>
+                <div class="icon">${ICONS.warning}</div>
                 <p><strong>Hriatthiam loh thil a awm:</strong> ${message}</p>
             </div>
         `;
@@ -176,9 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const showSuccess = (message) => {
         // Only show success toast if not appending
         if (currentOffset === 0) {
-            // We could implement a toast system, but for now let's keep it simple or skip to avoid clearing results
-            // Actually, let's not clear results for success message, just console log or use a small badge
-            console.log(message);
+            showToast(message, 'success', 3000);
         }
     };
 
@@ -309,7 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 
                 resultDiv.innerHTML = `
-                    <h3><span class="icon">📖</span>${item.book} ${item.chapter}:${item.verse}</h3>
+                    <h3><span class="icon">${ICONS.book}</span>${item.book} ${item.chapter}:${item.verse}</h3>
                     <div class="meta">${item.bible_name}</div>
                     <p class="text">${textContent}</p>
                 `;
@@ -321,7 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (!append) {
             resultsContainer.innerHTML = `
                 <div class="no-results">
-                    <div class="icon">🔍</div>
+                    <div class="icon">${ICONS.search}</div>
                     <p>Hmuh tur a awm lo.</p>
                     <p style="font-size: 0.95rem; color: var(--text-muted);">Try different search terms or check spelling</p>
                 </div>
@@ -361,7 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ` : `<p class="definition">${item.definition}</p>`;
                 
                 resultDiv.innerHTML = `
-                    <h3><span class="icon">📖</span>${item.word}</h3>
+                    <h3><span class="icon">${ICONS.book}</span>${item.word}</h3>
                     <div class="meta">${item.dictionary_title}</div>
                     ${definitionContent}
                     ${exampleSection}
@@ -374,7 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (!append) {
             resultsContainer.innerHTML = `
                 <div class="no-results">
-                    <div class="icon">🔍</div>
+                    <div class="icon">${ICONS.search}</div>
                     <p>Hmuh tur a awm lo.</p>
                     <p style="font-size: 0.95rem; color: var(--text-muted);">Try a different word or check spelling</p>
                 </div>
@@ -398,11 +441,32 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize
     resultsContainer.innerHTML = `
         <div class="placeholder">
-            <div class="icon">📚</div>
+            <div class="icon">${ICONS.books}</div>
             <p>Result-te he tah hian a lo lang ang.</p>
         </div>
     `;
     
     // Fetch Daily Highlights on Load
     fetchDailyHighlights();
+
+    // Check initial scroll position for button visibility
+    handleScrollTopVisibility();
+
+    // Generate floating particles for visual delight
+    const particleContainer = document.createElement('div');
+    particleContainer.className = 'particles';
+    document.body.appendChild(particleContainer);
+
+    for (let i = 0; i < 25; i++) {
+        const particle = document.createElement('span');
+        particle.className = 'particle';
+        const size = Math.random() * 8 + 4;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.animationDuration = `${Math.random() * 10 + 8}s`;
+        particle.style.animationDelay = `${Math.random() * 10}s`;
+        particle.style.background = `rgba(255, 255, 255, ${Math.random() * 0.4 + 0.1})`;
+        particleContainer.appendChild(particle);
+    }
 });

@@ -28,24 +28,24 @@
 
         <div class="tabs">
             <button id="bible-tab" class="tab-btn active" data-section="bible-section">
-                <span class="icon">📖</span>
+                <span class="icon"><svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
                 Bible
             </button>
             <button id="dict-tab" class="tab-btn" data-section="dictionary-section">
-                <span class="icon">📚</span>
+                <span class="icon"><svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
                 Dictionary
             </button>
         </div>
 
         <div id="daily-highlights" class="daily-section">
             <div class="daily-card">
-                <h3><span class="icon">✨</span> Verse of the Day</h3>
+                <h3><span class="icon"><svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5z"/></svg></span> Verse of the Day</h3>
                 <div id="daily-verse-content" class="daily-content">
                     <div class="spinner small"></div>
                 </div>
             </div>
             <div class="daily-card">
-                <h3><span class="icon">📖</span> Word of the Day</h3>
+                <h3><span class="icon"><svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span> Word of the Day</h3>
                 <div id="daily-word-content" class="daily-content">
                     <div class="spinner small"></div>
                 </div>
@@ -54,7 +54,7 @@
 
         <main>
             <section id="bible-section" class="search-section">
-                <h2><span class="icon">📖</span> Bible Chang Zawnna</h2>
+                <h2><span class="icon"><svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span> Bible Chang Zawnna</h2>
                 <form id="bible-form">
                     <div class="form-row">
                         <div class="form-group">
@@ -88,7 +88,7 @@
             </section>
 
             <section id="dictionary-section" class="search-section hidden">
-                <h2><span class="icon">📚</span> Dictionary</h2>
+                <h2><span class="icon"><svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span> Dictionary</h2>
                 <form id="dictionary-form">
                     <div class="form-row">
                         <div class="form-group">
@@ -112,7 +112,7 @@
 
             <div id="results" aria-live="polite">
                 <div class="placeholder">
-                    <div class="icon">📚</div>
+                    <div class="icon"><svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
                     <p>Result-te he tah hian a lo lang ang.</p>
                 </div>
             </div>
@@ -124,6 +124,16 @@
             </div>
         </main>
     </div>
+
+    <!-- Toast notification container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Scroll to top button -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Scroll to top">
+        <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
 
     <script>
         // Pass PHP environment variables to JavaScript securely

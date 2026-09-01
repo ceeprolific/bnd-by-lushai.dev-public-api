@@ -19,20 +19,20 @@ He project hian `bnd.lushai.dev` API hmangin Mizo Bible leh English-Mizo Diction
     *   Bible leh Dictionary zawnna form te a awm.
     *   Tab hmangin Bible leh Dictionary zawnna a inthlak thei.
     *   API Key chu `config/bootstrap.php` atangin `$_ENV` hmanga lain, JavaScript-ah him takin a pe chhawng (`htmlspecialchars` hmanga venhim).
+    *   **Toast Notification Container** and **Scroll to Top Button** added.
 
 4.  **`assets/css/style.css`**:
     *   **Enhanced "Sunset" theme** with modern design system:
         *   **CSS Custom Properties** for easy theme customization
-        *   **Dynamic gradient background** with smooth animation
+        *   **Dynamic aurora gradient background** with floating particles
         *   **Glass-morphism effects** for containers and cards
-        *   **Enhanced typography** with Inter font family
-        *   **Smooth transitions** and hover effects throughout
+        *   **Animated gradient borders** and shimmering overlays
+        *   **Enhanced typography** with Inter and Sora font families
+        *   **Smooth transitions** and bouncy hover effects throughout
         *   **Improved mobile responsiveness** with touch-friendly targets
-        *   **Better visual hierarchy** with shadows and spacing
         *   **Loading animations** (spinner) and micro-interactions
         *   **Accessibility improvements** (focus states, ARIA labels, `.sr-only` class)
-        *   **Dark mode optimization** with proper contrast ratios
-        *   **New Components**: Styling for Daily Highlights cards, Select dropdowns, and Load More button.
+        *   **New Components**: Styling for Daily Highlights cards, Select dropdowns, Load More button, Toast notifications, Scroll-to-top button, floating particles.
 
 5.  **`assets/js/app.js`**:
     *   **Enhanced JavaScript with modern UX patterns**:
@@ -42,12 +42,13 @@ He project hian `bnd.lushai.dev` API hmangin Mizo Bible leh English-Mizo Diction
         *   **Improved form validation** with user feedback
         *   **Enhanced error handling** with specific messages (rate limiting, missing API key)
         *   **Loading states** with animated spinner
-        *   **Success messages** for better user feedback
+        *   **Toast notification system** for success and error messages
+        *   **Scroll-to-top button** with smooth scrolling
         *   **Staggered result animations** for visual appeal
         *   **Search term highlighting** in results
         *   **Keyboard navigation support** for accessibility
         *   **Rate limit awareness** with remaining quota display
-        *   **Better responsive design** handling
+        *   **Floating particles generation** for visual delight
 
 ## Mascot Logo Added
 
@@ -63,6 +64,13 @@ He project hian `bnd.lushai.dev` API hmangin Mizo Bible leh English-Mizo Diction
     *   `<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">` (modern browsers)
     *   `<link rel="apple-touch-icon" href="assets/favicon.svg">` (iOS home screen)
 *   SVG format is used because it is text-based, scales crisply at any size, requires no binary asset generation, and is supported by all modern browsers.
+
+## Emoji Replacement with SVG Icons
+
+*   Every emoji icon (📖, 📚, ✨, 🔍, ⚠️) previously used in **index.php** and **assets/js/app.js** has been replaced with inline SVG icons.
+*   The SVG icons use `width="1em" height="1em"` so they scale automatically with the surrounding font size, matching the existing CSS classes.
+*   **assets/mascot.svg** and **assets/favicon.svg** have been created (they were missing before, causing the broken image icon in the header).
+*   A new CSS rule for `.icon` and `.icon-svg` was added to ensure proper vertical alignment and sizing.
 
 ## How to Test the Enhanced Application
 
@@ -84,24 +92,28 @@ php -S localhost:8000
 - **BUG FIX**: The "Verse of the Day" and "Word of the Day" spinners would previously get stuck on page load if the API key was invalid or an API error occurred. This has been resolved. The spinners will now correctly be replaced with content or a "not available" message.
 - **API Key Check**: Test this fix by running the app with the default (invalid) `BND_API_KEY` in your `.env` file. The spinners should disappear and show a message. Then, test with a valid key to see the content load.
 
-#### Visual Enhancements:
-- **Dynamic Background**: Notice the animated gradient background
-- **Glass Effect**: Observe the frosted glass effect on the container
-- **Tab Animation**: Watch the smooth transition when switching tabs
-- **Result Cards**: See the staggered animation when results appear
-- **Hover Effects**: Hover over buttons and cards for visual feedback
+#### Visual Enhancements (Newly Upgraded):
+- **Aurora Background**: Notice the animated multi-colored aurora gradient on the page.
+- **Floating Particles**: Small glowing particles float upward across the screen.
+- **Animated Container Border**: The main container has a slow-moving gradient border.
+- **Glass Morphism**: Frosted glass effects on cards, forms, and tabs.
+- **Shimmer Effects**: Buttons and active tabs have a moving shine.
+- **Bouncy Hover**: Elements lift with a spring-like motion on hover.
+- **Scroll-to-top Button**: A floating button appears after scrolling down; click to return to top.
+- **Toast Notifications**: Success/error messages appear as toast pop-ups in the top-right corner.
 
 #### Functional Improvements:
-- **Loading States**: Submit a search to see the animated spinner
-- **Error Handling**: Try submitting empty forms to see validation messages
-- **Success Messages**: Notice the green success messages after searches
-- **Search Highlighting**: Words from your search are highlighted in results
-- **Rate Limiting**: Monitor browser console for rate limit information
+- **Loading States**: Submit a search to see the animated spinner.
+- **Error Handling**: Try submitting empty forms to see toast and inline validation messages.
+- **Success Messages**: Notice the green toast notifications after searches.
+- **Search Highlighting**: Words from your search are highlighted in results.
+- **Rate Limiting**: Monitor browser console for rate limit information.
+- **Pagination**: Use "Load More" button to append results; loading spinner appears during fetch.
 
 #### Accessibility Features:
-- **Keyboard Navigation**: Use Tab key to navigate through the interface
-- **Focus States**: Notice the blue focus rings on interactive elements
-- **Screen Reader Support**: ARIA labels are included for better accessibility
+- **Keyboard Navigation**: Use Tab key to navigate through the interface.
+- **Focus States**: Notice the bright focus rings on interactive elements.
+- **Screen Reader Support**: ARIA labels are included for better accessibility.
 
 #### Test Scenarios:
 1. **Bible Search**:
@@ -109,20 +121,23 @@ php -S localhost:8000
    - Watch the loading spinner appear
    - See results animate in one by one
    - Notice the highlighted search terms
+   - Scroll down to trigger the scroll-to-top button
 
 2. **Dictionary Search**:
    - Switch to Dictionary tab (watch the smooth transition)
    - Word: `Faith`
    - See the enhanced result cards with example usage
    - Notice the phonetic information display
+   - A success toast should appear top-right.
 
 3. **Responsive Design**:
    - Resize browser to mobile width
    - Observe the layout adapting to smaller screens
    - Test touch interactions on mobile devices
+   - Toast container adjusts to full width on small screens.
 
 4. **Error Conditions**:
-   - Submit empty forms to see validation
+   - Submit empty forms to see validation toast
    - Check console for API rate limit information
    - Test network errors (disconnect internet temporarily)
 
@@ -130,6 +145,6 @@ php -S localhost:8000
 - Open browser Developer Tools (F12)
 - Check Network tab for API call timing
 - Monitor Console for error messages
-- Observe smooth animations and transitions
+- Observe smooth animations, particle effects, and transitions
 
-The enhanced application now provides a modern, accessible, and visually appealing experience while maintaining all the original functionality!
+The enhanced application now provides a modern, accessible, and visually stunning experience while maintaining all the original functionality!
