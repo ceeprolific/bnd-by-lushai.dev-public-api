@@ -50,6 +50,15 @@ He project hian `bnd.lushai.dev` API hmangin Mizo Bible leh English-Mizo Diction
         *   **Rate limit awareness** with remaining quota display
         *   **Floating particles generation** for visual delight
 
+## Performance Optimizations (Animation Lag Fix)
+
+- **Removed `backdrop-filter`** from `.container`, `.daily-card`, `.result-item`, `.toast`, `.btn-secondary`, and message boxes to eliminate expensive GPU blur operations.
+- **Reduced aurora background blur** from `60px` to `20px` and simplified the animation to lower CPU/GPU usage.
+- **Removed full-page `backdrop-filter` overlay** from `body::after`.
+- **Reduced particle count** from 25 to 8 in `app.js` and added `will-change: transform, opacity`.
+- **Added `prefers-reduced-motion` support** – all animations are disabled when the user’s system prefers reduced motion.
+- These changes significantly improve frame rate and responsiveness, especially on mobile and low-end devices.
+
 ## Logo Updated
 
 *   **`index.php`**: Patched the `<header>` section to use the official Lushai logo from PicPulse:

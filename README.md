@@ -32,7 +32,7 @@ A simple, fast, and beautiful web interface for searching the Mizo Holy Bible an
 *   **Backend (Configuration)**: PHP for loading environment variables securely
 *   **API Integration**: Consumes the external `bnd.lushai.dev` REST API with proper error handling
 *   **Design System**: Modern component-based UI with consistent spacing, colors, and typography
-*   **Performance**: Optimized assets, lazy loading, and efficient API calls
+*   **Performance**: Optimized assets, lazy loading, efficient API calls, and minimised heavy CSS animations (removed backdrop-filter, reduced particle count, added `prefers-reduced-motion` support)
 *   **Features**: Daily highlights, multi-version Bible search, bi-directional dictionary, pagination, toast notifications, scroll-to-top
 
 ### File Structure
@@ -55,6 +55,13 @@ A simple, fast, and beautiful web interface for searching the Mizo Holy Bible an
 ├── README.md
 └── walkthrough.md
 ```
+
+### Performance Optimizations (Latest)
+
+- **Removed backdrop-filter** from all major containers to reduce GPU load.
+- **Reduced aurora blur radius** and simplified background animation.
+- **Lowered particle count** from 25 to 8 and added GPU hints.
+- **Added `prefers-reduced-motion` media query** to disable animations for users who prefer reduced motion.
 
 ### Key Enhancements Implemented
 

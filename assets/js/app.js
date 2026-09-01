@@ -452,21 +452,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check initial scroll position for button visibility
     handleScrollTopVisibility();
 
-    // Generate floating particles for visual delight
-    const particleContainer = document.createElement('div');
-    particleContainer.className = 'particles';
-    document.body.appendChild(particleContainer);
+    // Generate floating particles for visual delight (optimized for performance)
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!prefersReducedMotion) {
+        const particleContainer = document.createElement('div');
+        particleContainer.className = 'particles';
+        document.body.appendChild(particleContainer);
 
-    for (let i = 0; i < 25; i++) {
-        const particle = document.createElement('span');
-        particle.className = 'particle';
-        const size = Math.random() * 8 + 4;
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.animationDuration = `${Math.random() * 10 + 8}s`;
-        particle.style.animationDelay = `${Math.random() * 10}s`;
-        particle.style.background = `rgba(255, 255, 255, ${Math.random() * 0.4 + 0.1})`;
-        particleContainer.appendChild(particle);
+        // Reduced particle count to improve performance
+        for (let i = 0; i < 8; i++) {
+            const particle = document.createElement('span');
+            particle.className = 'particle';
+            const size = Math.random() * 6 + 3;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.animationDuration = `${Math.random() * 8 + 8}s`;
+            particle.style.animationDelay = `${Math.random() * 5}s`;
+            particle.style.background = `rgba(255, 255, 255, ${Math.random() * 0.4 + 0.1})`;
+            particleContainer.appendChild(particle);
+        }
     }
 });
