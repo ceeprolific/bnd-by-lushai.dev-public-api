@@ -116,6 +116,7 @@ You can now use the application to search for Bible verses and dictionary words 
 - **Smoother Animations**: Transitions and keyframe animations throughout
 - **Daily Highlights Cards**: Visually distinct cards for Verse/Word of the Day
 - **Styled Select Dropdowns**: Custom-styled dropdowns matching the input fields
+- **Fixed Daily Highlights Spinner**: Resolved issue where "Verse of the Day" and "Word of the Day" spinners would persist indefinitely.
 
 ### UX Improvements
 - **Daily Highlights**: Instant value on page load with Verse/Word of the Day

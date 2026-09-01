@@ -20,9 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Daily Highlights ---
     const fetchDailyHighlights = async () => {
         const data = await fetchFromApi('daily', {}, true); // true = silent mode (no main loading spinner)
+        
+        const verseContainer = document.getElementById('daily-verse-content');
+        const wordContainer = document.getElementById('daily-word-content');
+
         if (data && data.status === 'success') {
             // Verse of the Day
-            const verseContainer = document.getElementById('daily-verse-content');
             if (data.daily_verse) {
                 verseContainer.innerHTML = `
                     <p>"${data.daily_verse.text}"</p>
@@ -33,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Word of the Day
-            const wordContainer = document.getElementById('daily-word-content');
             if (data.daily_word) {
                 wordContainer.innerHTML = `
                     <div class="word-title">${data.daily_word.word}</div>
@@ -43,6 +45,10 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 wordContainer.innerHTML = '<p>Word not available today.</p>';
             }
+        } else {
+            // Handle API failure or empty response
+            verseContainer.innerHTML = '<p>Verse not available today.</p>';
+            wordContainer.innerHTML = '<p>Word not available today.</p>';
         }
     };
 
@@ -179,14 +185,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const fetchFromApi = async (endpoint, params, silent = false) => {
         if (!BND_API_KEY || BND_API_KEY === 'bnd_live_your_unique_api_token_here') {
             if (!silent) showError("API Key a ngai. .env file-ah i API key dik tak dah luh tur.");
-            return;
+            return null;
         }
 
         const isAppending = params.offset > 0;
         const query = new URLSearchParams(params).toString();
         const url = `${API_BASE_URL}/${endpoint}?${query}`;
         
-        showLoading(isAppending);
+        if (!silent) showLoading(isAppending);
 
         try {
             const response = await fetch(url, {
@@ -213,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (response.status === 429) {
                     const resetTime = new Date(rateLimitReset * 1000).toLocaleTimeString();
-                    showError(`Rate limit exceeded. Please try again after ${resetTime}.`);
+                    if (!silent) showError(`Rate limit exceeded. Please try again after ${resetTime}.`);
                 } else {
                     throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
                 }

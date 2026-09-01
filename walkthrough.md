@@ -65,6 +65,10 @@ php -S localhost:8000
 
 ### 4. Test Enhanced UI/UX Features
 
+#### Daily Highlights Fix:
+- **Spinning Issue Resolved**: The "Verse of the Day" and "Word of the Day" spinners will now correctly disappear after data loads or if an error occurs.
+- **API Key Check**: Ensure your `.env` file has a valid API key to fetch daily highlights.
+
 #### Visual Enhancements:
 - **Dynamic Background**: Notice the animated gradient background
 - **Glass Effect**: Observe the frosted glass effect on the container
